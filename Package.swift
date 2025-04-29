@@ -11,7 +11,10 @@ let package = Package(
     ],
     dependencies: [
         .package(url: "https://github.com/hummingbird-project/hummingbird.git", from: "2.5.0"),
-        .package(url: "https://github.com/swift-server/RediStack.git", from: "1.4.0"),
+        .package(
+            url: "https://github.com/swift-server/RediStack.git",
+            branch: "jo/preliminary-tls-support"
+        ), // TODO: Remove
     ],
     targets: [
         .target(

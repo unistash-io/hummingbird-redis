@@ -62,7 +62,7 @@ public struct RedisConfiguration {
             let scheme = url.scheme,
             !scheme.isEmpty
         else { throw ValidationError.missingURLScheme }
-        guard scheme == "redis" else { throw ValidationError.invalidURLScheme }
+        guard scheme == "redis" || scheme == "rediss" else { throw ValidationError.invalidURLScheme }
         guard let host = url.host, !host.isEmpty else { throw ValidationError.missingURLHost }
 
         try self.init(

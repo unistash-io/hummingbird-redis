@@ -7,13 +7,13 @@ let package = Package(
     name: "hummingbird-redis",
     platforms: [.macOS(.v14), .iOS(.v17), .tvOS(.v17)],
     products: [
-        .library(name: "HummingbirdRedis", targets: ["HummingbirdRedis"])
+        .library(name: "HummingbirdRedis", targets: ["HummingbirdRedis"]),
     ],
     dependencies: [
         .package(url: "https://github.com/hummingbird-project/hummingbird.git", from: "2.5.0"),
         .package(
-            url: "https://github.com/swift-server/RediStack.git",
-            branch: "jo/preliminary-tls-support"
+            url: "https://github.com/unistash-io/RediStack.git",
+            branch: "tls"
         ), // TODO: Remove
     ],
     targets: [

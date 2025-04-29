@@ -16,6 +16,7 @@ import Hummingbird
 import Logging
 import NIOCore
 import RediStack
+import NIOSSL
 
 import struct Foundation.URL
 
@@ -122,6 +123,7 @@ extension RedisConnectionPool.Configuration {
             connectionBackoffFactor: config.pool.connectionBackoffFactor,
             initialConnectionBackoffDelay: config.pool.initialConnectionBackoffDelay,
             connectionRetryTimeout: config.pool.connectionRetryTimeout,
+            clientTLSConfiguration: .clientDefault,
             poolDefaultLogger: logger
         )
     }

@@ -104,6 +104,7 @@ public struct RedisConfiguration {
         pool: PoolOptions = .init()
     ) throws {
         self.serverAddresses = serverAddresses
+        self.username = username
         self.password = password
         self.database = database
         self.pool = pool

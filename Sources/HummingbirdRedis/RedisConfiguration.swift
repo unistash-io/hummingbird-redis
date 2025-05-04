@@ -31,6 +31,7 @@ public struct RedisConfiguration {
     public var password: String?
     public var database: Int?
     public var pool: PoolOptions
+    public var tlsConfiguration: TLSConfiguration?
 
     public struct PoolOptions {
         public var maximumConnectionCount: RedisConnectionPoolSize
@@ -73,7 +74,8 @@ public struct RedisConfiguration {
             username: url.user,
             password: url.password,
             database: Int(url.lastPathComponent),
-            pool: pool
+            pool: pool,
+            tlsConfiguration: scheme == "rediss" ? .clientDefault : nil
         )
     }
 
@@ -83,7 +85,8 @@ public struct RedisConfiguration {
         username: String? = nil,
         password: String? = nil,
         database: Int? = nil,
-        pool: PoolOptions = .init()
+        pool: PoolOptions = .init(),
+        tlsConfiguration: TLSConfiguration? = nil
     ) throws {
         if database != nil, database! < 0 { throw ValidationError.outOfBoundsDatabaseID }
 
@@ -92,7 +95,8 @@ public struct RedisConfiguration {
             username: username,
             password: password,
             database: database,
-            pool: pool
+            pool: pool,
+            tlsConfiguration: tlsConfiguration
         )
     }
 
@@ -101,13 +105,15 @@ public struct RedisConfiguration {
         username: String? = nil,
         password: String? = nil,
         database: Int? = nil,
-        pool: PoolOptions = .init()
+        pool: PoolOptions = .init(),
+        tlsConfiguration: TLSConfiguration? = nil
     ) throws {
         self.serverAddresses = serverAddresses
         self.username = username
         self.password = password
         self.database = database
         self.pool = pool
+        self.tlsConfiguration = tlsConfiguration
     }
 }
 
@@ -130,7 +136,7 @@ extension RedisConnectionPool.Configuration {
             connectionBackoffFactor: config.pool.connectionBackoffFactor,
             initialConnectionBackoffDelay: config.pool.initialConnectionBackoffDelay,
             connectionRetryTimeout: config.pool.connectionRetryTimeout,
-            clientTLSConfiguration: .clientDefault,
+            clientTLSConfiguration: config.tlsConfiguration,
             poolDefaultLogger: logger
         )
     }

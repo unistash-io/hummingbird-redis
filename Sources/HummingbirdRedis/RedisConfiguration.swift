@@ -27,6 +27,7 @@ public struct RedisConfiguration {
     public typealias ValidationError = RedisConnection.Configuration.ValidationError
 
     public var serverAddresses: [SocketAddress]
+    public var username: String?
     public var password: String?
     public var database: Int?
     public var pool: PoolOptions
@@ -69,6 +70,7 @@ public struct RedisConfiguration {
         try self.init(
             hostname: host,
             port: url.port ?? RedisConnection.Configuration.defaultPort,
+            username: url.user,
             password: url.password,
             database: Int(url.lastPathComponent),
             pool: pool
@@ -78,6 +80,7 @@ public struct RedisConfiguration {
     public init(
         hostname: String,
         port: Int = RedisConnection.Configuration.defaultPort,
+        username: String? = nil,
         password: String? = nil,
         database: Int? = nil,
         pool: PoolOptions = .init()
@@ -86,6 +89,7 @@ public struct RedisConfiguration {
 
         try self.init(
             serverAddresses: [.makeAddressResolvingHost(hostname, port: port)],
+            username: username,
             password: password,
             database: database,
             pool: pool
@@ -94,6 +98,7 @@ public struct RedisConfiguration {
 
     public init(
         serverAddresses: [SocketAddress],
+        username: String? = nil,
         password: String? = nil,
         database: Int? = nil,
         pool: PoolOptions = .init()
@@ -115,6 +120,7 @@ extension RedisConnectionPool.Configuration {
             maximumConnectionCount: config.pool.maximumConnectionCount,
             connectionFactoryConfiguration: .init(
                 connectionInitialDatabase: config.database,
+                connectionUsername: config.username,
                 connectionPassword: config.password,
                 connectionDefaultLogger: logger,
                 tcpClient: nil
